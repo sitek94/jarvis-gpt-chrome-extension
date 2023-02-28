@@ -32,3 +32,7 @@ export async function shouldShowRatingTip() {
   await Browser.storage.local.set({ ratingTipShowTimes: ratingTipShowTimes + 1 })
   return ratingTipShowTimes >= 2
 }
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@geist-ui/core': ^2.3.8
   '@primer/octicons-react': ^17.9.0
+  '@types/dom-speech-recognition': ^0.0.1
   '@types/fs-extra': ^9.0.13
   '@types/lodash-es': ^4.17.6
   '@types/uuid': ^9.0.0
@@ -64,6 +65,7 @@ dependencies:
   uuid: 9.0.0
 
 devDependencies:
+  '@types/dom-speech-recognition': 0.0.1
   '@types/fs-extra': 9.0.13
   '@types/lodash-es': 4.17.6
   '@types/uuid': 9.0.1
@@ -395,6 +397,10 @@ packages:
     dependencies:
       '@types/ms': 0.7.31
     dev: false
+
+  /@types/dom-speech-recognition/0.0.1:
+    resolution: {integrity: sha512-udCxb8DvjcDKfk1WTBzDsxFbLgYxmQGKrE/ricoMqHRNjSlSUCcamVTA5lIQqzY10mY5qCY0QDwBfFEwhfoDPw==}
+    dev: true
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}

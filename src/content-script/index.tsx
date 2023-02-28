@@ -1,65 +1,110 @@
-import { render } from 'preact'
+import { debounce } from 'lodash-es'
 import '../base.css'
-import { getUserConfig, Language, Theme } from '../config'
-import { detectSystemColorScheme } from '../utils'
-import ChatGPTContainer from './ChatGPTContainer'
-import { config, SearchEngine } from './search-engine-configs'
-import './styles.scss'
-import { getPossibleElementByQuerySelector } from './utils'
+import { sleep } from './utils'
 
-async function mount(question: string, siteConfig: SearchEngine) {
-  const container = document.createElement('div')
-  container.className = 'chat-gpt-container'
+init()
 
-  const userConfig = await getUserConfig()
-  let theme: Theme
-  if (userConfig.theme === Theme.Auto) {
-    theme = detectSystemColorScheme()
-  } else {
-    theme = userConfig.theme
+/**
+ * Speech Recognition keywords. Have to match exactly and should be single words,
+ * so they are not confused with the user's input.
+ */
+const KEYWORD = {
+  SEND: 'send',
+  RESET: 'reset',
+}
+
+async function init() {
+  console.log('[AI Assistant] Starting')
+
+  await sleep(1000)
+
+  const textarea = select<HTMLTextAreaElement>('textarea')
+  const button = select<HTMLFormElement>('form button')
+  const responses = document.querySelectorAll<HTMLDivElement>('.markdown.prose')
+
+  console.log(responses)
+
+  listenForUserInput({
+    onUserInput: (text) => {
+      textarea.textContent = text
+    },
+
+    // 🚨 TODO: somehow still sending multiple times 🚨
+    onSend: debounce(() => {
+      button.click()
+    }, 1000),
+    onReset: () => {
+      textarea.textContent = ''
+    },
+  })
+}
+
+function listenForUserInput({
+  onUserInput,
+  onSend,
+  onReset,
+}: {
+  onUserInput: (text: string) => void
+  onSend: () => void
+  onReset: () => void
+}) {
+  if (!window.webkitSpeechRecognition) {
+    console.error('[Speech Recognition] not supported')
   }
-  if (theme === Theme.Dark) {
-    container.classList.add('gpt-dark')
-  } else {
-    container.classList.add('gpt-light')
-  }
 
-  const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
-  if (siderbarContainer) {
-    siderbarContainer.prepend(container)
-  } else {
-    container.classList.add('sidebar-free')
-    const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
-    if (appendContainer) {
-      appendContainer.appendChild(container)
+  console.log('[SpeechRecognition] Starting')
+
+  const recognition = new webkitSpeechRecognition()
+  recognition.interimResults = true
+  recognition.lang = 'en-US'
+
+  let sentences: string[] = []
+  let current = ''
+
+  recognition.addEventListener('result', (e) => {
+    const transcript = Array.from(e.results)
+      .map((result) => result[0])
+      .map((result) => result.transcript)
+      .join('')
+
+    if (transcript === KEYWORD.SEND) {
+      onSend()
     }
-  }
+    if (transcript === KEYWORD.RESET) {
+      sentences = []
+      onReset()
+      return
+    }
 
-  render(
-    <ChatGPTContainer question={question} triggerMode={userConfig.triggerMode || 'always'} />,
-    container,
-  )
+    current = transcript
+
+    if (e.results[0].isFinal) {
+      sentences.push(current)
+      current = ''
+    }
+
+    onUserInput(sentences.join('. '))
+
+    console.log(`[SpeechRecognition] ${transcript}`)
+    console.log(`[SpeechRecognition] Sentences: ${sentences.join('. ')}`)
+  })
+
+  // Keep listening
+  recognition.addEventListener('end', recognition.start)
+
+  recognition.start()
+
+  // @ts-expect-error
+  window.stopRecognition = () => {
+    recognition.stop()
+  }
 }
 
-const siteRegex = new RegExp(Object.keys(config).join('|'))
-const siteName = location.hostname.match(siteRegex)![0]
-const siteConfig = config[siteName]
-
-async function run() {
-  const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
-  if (searchInput && searchInput.value) {
-    console.debug('Mount ChatGPT on', siteName)
-    const userConfig = await getUserConfig()
-    const searchValueWithLanguageOption =
-      userConfig.language === Language.Auto
-        ? searchInput.value
-        : `${searchInput.value}(in ${userConfig.language})`
-    mount(searchValueWithLanguageOption, siteConfig)
+function select<TElement extends Element>(selector: string): TElement {
+  const element = document.querySelector<TElement>(selector)
+  if (!element) {
+    throw new Error(`Could not find element with selector: ${selector}`)
   }
-}
 
-run()
-
-if (siteConfig.watchRouteChange) {
-  siteConfig.watchRouteChange(run)
+  return element
 }
