@@ -1,31 +1,8 @@
-# ChatGPT for Google
+#  ChatGPT Google Extension Playground
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wong2/chatgpt-google-extension/pre-release-build.yml)
-![Visitors](https://visitor-badge.glitch.me/badge?page_id=wong2.chat-gpt-google-extension&left_color=green&right_color=red)
-[![Twitter Follow](https://img.shields.io/twitter/follow/chatgpt4google?style=social)](https://twitter.com/chatgpt4google)
-![License](https://img.shields.io/github/license/wong2/chatgpt-google-extension)
+🚨🚨🚨 This is not a real extension! 🚨🚨🚨 
 
-### Notice (2023-02-20)
-
-As this extension has been acquired, this code repository will no longer be updated from now on.
-
----
-
-A browser extension to display ChatGPT response alongside Google (and other search engines) results
-
-[Install from Chrome Web Store](https://chatgpt4google.com/chrome?utm_source=github)
-
-[Install from Mozilla Add-on Store](https://chatgpt4google.com/firefox?utm_source=github)
-
-[Changelog](https://chatgpt-for-google.canny.io/changelog)
-
-## Supported Search Engines
-
-Google, Baidu, Bing, DuckDuckGo, Brave, Yahoo, Naver, Yandex, Kagi, Searx
-
-## Screenshot
-
-![Screenshot](screenshots/extension.png?raw=true)
+This project was cloned from [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) and I'm simply playing around with it.
 
 ## Features
 
@@ -39,20 +16,6 @@ Google, Baidu, Bing, DuckDuckGo, Brave, Yahoo, Naver, Yandex, Kagi, Searx
 - Copy to clipboard
 - Custom trigger mode
 - Switch languages
-
-## Troubleshooting
-
-### How to make it work in Brave
-
-![Screenshot](screenshots/brave.png?raw=true)
-
-Disable "Prevent sites from fingerprinting me based on my language preferences" in `brave://settings/shields`
-
-### How to make it work in Opera
-
-![Screenshot](screenshots/opera.png?raw=true)
-
-Enable "Allow access to search page results" in the extension management page
 
 ## Build from source
 
