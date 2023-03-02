@@ -1,5 +1,5 @@
-import { sleep, select } from '../lib/utils'
-import { SpeechToText } from '../lib/speech-to-text'
+import { sleep, select } from '@lib/utils'
+import { SpeechToText } from '@lib/speech-to-text'
 
 init()
 
