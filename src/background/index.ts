@@ -1,4 +1,4 @@
-import { TextToSpeech, getTextToSpeechVoice } from './text-to-speech'
+import { TextToSpeech, getTextToSpeechVoice } from '../lib/text-to-speech'
 
 init()
 

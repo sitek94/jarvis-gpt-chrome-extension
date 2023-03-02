@@ -1,6 +1,5 @@
-import '../base.css'
-import { sleep, select } from './utils'
-import { SpeechToText } from './speech-to-text'
+import { sleep, select } from '../lib/utils'
+import { SpeechToText } from '../lib/speech-to-text'
 
 init()
 
