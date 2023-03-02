@@ -10,7 +10,7 @@
     "48": "logo.png",
     "128": "logo.png"
   },
-  "permissions": ["storage", "https://*.openai.com/"],
+  "permissions": ["storage", "tts", "https://*.openai.com/"],
   "background": {
     "scripts": ["background.js"]
   },
