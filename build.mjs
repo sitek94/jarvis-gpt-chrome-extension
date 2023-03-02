@@ -14,12 +14,7 @@ async function deleteOldDir() {
 
 async function runEsbuild() {
   await esbuild.build({
-    entryPoints: [
-      'src/content-script/index.tsx',
-      'src/background/index.ts',
-      // 'src/options/index.tsx',
-      // 'src/popup/index.tsx',
-    ],
+    entryPoints: ['src/content-script/index.ts', 'src/background/index.ts'],
     bundle: true,
     outdir: outdir,
     treeShaking: true,
@@ -35,13 +30,6 @@ async function runEsbuild() {
     loader: {
       '.png': 'dataurl',
     },
-    // plugins: [
-    //   postcssPlugin({
-    //     postcss: {
-    //       plugins: [tailwindcss, autoprefixer],
-    //     },
-    //   }),
-    // ],
   })
 }
 
@@ -70,16 +58,9 @@ async function build() {
 
   const commonFiles = [
     { src: 'build/content-script/index.js', dst: 'content-script.js' },
-    // { src: 'build/content-script/index.css', dst: 'content-script.css' },
     { src: 'build/background/index.js', dst: 'background.js' },
-    // { src: 'build/options/index.js', dst: 'options.js' },
-    // { src: 'build/options/index.css', dst: 'options.css' },
-    // { src: 'src/options/index.html', dst: 'options.html' },
-    // { src: 'build/popup/index.js', dst: 'popup.js' },
-    // { src: 'build/popup/index.css', dst: 'popup.css' },
-    // { src: 'src/popup/index.html', dst: 'popup.html' },
     { src: 'src/logo.png', dst: 'logo.png' },
-    // { src: 'src/_locales', dst: '_locales' },
+    { src: 'src/_locales', dst: '_locales' },
   ]
 
   // chromium
@@ -89,14 +70,6 @@ async function build() {
   )
 
   await zipFolder(`./${outdir}/chromium`)
-
-  // firefox
-  await copyFiles(
-    [...commonFiles, { src: 'src/manifest.v2.json', dst: 'manifest.json' }],
-    `./${outdir}/firefox`,
-  )
-
-  await zipFolder(`./${outdir}/firefox`)
 
   console.log('Build success.')
 }
