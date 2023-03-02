@@ -1,12 +1,11 @@
 {
-  "name": "chat-gpt-google-extension",
-  "author": "wong2",
+  "name": "jarvis-gpt",
+  "author": "Maciek Sitkowski",
   "scripts": {
     "build": "node build.mjs",
+    "dev": "chokidar src -c 'npm run build'",
     "lint": "eslint --ext .js,.mjs,.jsx .",
-    "lint:fix": "eslint --ext .js,.mjs,.jsx . --fix",
-    "prepare": "husky install",
-    "watch": "chokidar src -c 'npm run build'"
+    "lint:fix": "eslint --ext .js,.mjs,.jsx . --fix"
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
