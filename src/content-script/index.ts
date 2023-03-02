@@ -10,19 +10,29 @@ async function init() {
   const button = select<HTMLFormElement>('form button')
   const responses = document.querySelectorAll<HTMLDivElement>('.markdown.prose')
 
-  chrome.runtime.sendMessage({ type: 'speak', text: 'Hello, I am AI Assistant' })
+  speak(`Hello, I'm Jarvis!`)
+
+  let userInput = ''
 
   const speechToText = new SpeechToText({
-    onSendKeyword: () => {
-      // TODO
+    onUserSpeaking: ({ sentences }) => {
+      userInput = sentences.join('. ')
+      textarea.textContent = userInput
     },
-    onUserSpeaking: () => {
-      // TODO
+    onSendKeyword: () => {
+      speak(`Message to send: "${userInput}"`)
+      textarea.textContent = ''
     },
     onResetKeyword: () => {
-      // TODO
+      speak(`Resetting message`)
+      userInput = ''
+      textarea.textContent = ''
     },
   })
 
   speechToText.startListening()
+}
+
+function speak(text: string) {
+  chrome.runtime.sendMessage({ type: 'speak', text })
 }

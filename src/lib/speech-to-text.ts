@@ -42,13 +42,15 @@ export class SpeechToText {
         .map((result) => result.transcript)
         .join('')
 
-      if (isKeyword(transcript)) {
-        return this.handleKeyword(transcript)
-      }
+      this.currentSentence = transcript
 
       const hasFinishedSpeaking = event.results[0].isFinal
 
       if (hasFinishedSpeaking) {
+        if (isKeyword(transcript)) {
+          return this.handleKeyword(transcript)
+        }
+
         this.sentences.push(this.currentSentence)
         this.currentSentence = ''
       }
