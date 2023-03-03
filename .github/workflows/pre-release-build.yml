@@ -22,4 +22,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: JarvisGPT_Chrome_Extension_v${{ steps.package-version.outputs.current-version }}
-          path: build/chromium/*
+          path: build/*
