@@ -1,6 +1,7 @@
 {
   "name": "jarvis-gpt",
   "author": "Maciek Sitkowski",
+  "version": "0.0.1",
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
