@@ -15,12 +15,11 @@ jobs:
       - run: npm install
       - run: npm run build
 
-      - uses: josStorer/get-current-time@v2.0.2
-        id: current-time
-        with:
-          format: YY_MMDD_HH_mm
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Chromium_Jarvis_Extension_Build_${{ steps.current-time.outputs.formattedTime }}
+          name: JarvisGPT_Chrome_Extension_v${{ steps.package-version.outputs.current-version }}
           path: build/chromium/*
