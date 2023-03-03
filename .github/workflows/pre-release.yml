@@ -24,7 +24,7 @@ jobs:
 
       - name: Set version variable
         id: version
-        run: echo "::set-output name=version::$(node -p \"require('./package.json').version\")"
+        run: echo "::set-output name=version::$(node -p 'require("./package.json").version')"
 
       - uses: actions/upload-artifact@v3
         with:
