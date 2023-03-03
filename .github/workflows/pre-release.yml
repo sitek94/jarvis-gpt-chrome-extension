@@ -22,11 +22,11 @@ jobs:
 
       - run: pnpm run build
 
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
+      - name: Set version variable
+        id: version
+        run: echo "::set-output name=version::$(node -p \"require('./package.json').version\")"
 
       - uses: actions/upload-artifact@v3
         with:
-          name: JarvisGPT_Chrome_Extension_v${{ steps.package-version.outputs.current-version }}
+          name: JarvisGPT_Chrome_Extension_v${{ steps.version.outputs.version }}
           path: build/*
